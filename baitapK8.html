@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K8 - Tính Chỉ Số BMI</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 600px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+  }
+
+  .form-container {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 1rem;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 15px;
+  }
+
+  .input-wrapper {
+    flex: 1;
+    position: relative;
+  }
+
+  .form-group input[type="number"] {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+  }
+
+  .form-group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  }
+
+  .btn-calculate {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary-color), #2980b9);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  }
+
+  .btn-calculate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+    background: linear-gradient(135deg, #2980b9, var(--primary-color));
+  }
+
+  .btn-calculate:active {
+    transform: translateY(0);
+  }
+
+  .btn-reset {
+    width: 100%;
+    padding: 12px;
+    background: #bdc3c7;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+  }
+
+  .btn-reset:hover {
+    background: #95a5a6;
+    transform: translateY(-1px);
+  }
+
+  .result-container {
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .result-container.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .result-container h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .result-container p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .bmi-category {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+  }
+
+  .category-underweight {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+  }
+
+  .category-normal {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .category-overweight {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+  }
+
+  .category-obese {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .bmi-chart {
+    margin-top: 25px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .bmi-chart h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  .bmi-range {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .bmi-range:hover {
+    background: white;
+  }
+
+  .range-label {
+    font-weight: 600;
+    color: #666;
+  }
+
+  .range-value {
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+
+  .footer {
+    margin-top: 30px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .input-group {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Tính Chỉ Số BMI</h1>
+      <p class="subtitle">Chỉ số khối cơ thể (Body Mass Index)</p>
+    </header>
+
+    <div class="form-container">
+      <form id="bmiForm">
+        <div class="form-group">
+          <label for="weight">Cân nặng</label>
+          <div class="input-wrapper">
+            <input type="number" id="weight" placeholder="Nhập cân nặng của bạn (kg)" step="0.1" min="0" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="height">Chiều cao</label>
+          <div class="input-wrapper">
+            <input type="number" id="height" placeholder="Nhập chiều cao của bạn (m)" step="0.01" min="0" max="3" required>
+          </div>
+        </div>
+
+        <button type="button" class="btn-calculate" onclick="calculateBMI()">Tính BMI</button>
+        <button type="button" class="btn-reset" onclick="resetForm()">Làm Mới</button>
+      </form>
+
+      <div class="result-container" id="resultContainer">
+        <h3 id="bmiValue">0.00</h3>
+        <p id="bmiDescription">Chỉ số BMI của bạn</p>
+        <span class="bmi-category" id="bmiCategory">Chưa tính</span>
+      </div>
+
+      <div class="bmi-chart">
+        <h4>Phân loại theo BMI</h4>
+        <div class="bmi-range">
+          <span class="range-label">Thiếu cân</span>
+          <span class="range-value">Dưới 18.5</span>
+        </div>
+        <div class="bmi-range">
+          <span class="range-label">Bình thường</span>
+          <span class="range-value">18.5 - 24.9</span>
+        </div>
+        <div class="bmi-range">
+          <span class="range-label">Thừa cân</span>
+          <span class="range-value">25.0 - 29.9</span>
+        </div>
+        <div class="bmi-range">
+          <span class="range-label">Béo phì</span>
+          <span class="range-value">Trên 30.0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2024 BMI Calculator | Health & Fitness Tools</p>
+    </div>
+  </div>
+
+  <script>
+    const weightInput = document.getElementById('weight');
+    const heightInput = document.getElementById('height');
+    const resultContainer = document.getElementById('resultContainer');
+    const bmiValue = document.getElementById('bmiValue');
+    const bmiDescription = document.getElementById('bmiDescription');
+    const bmiCategory = document.getElementById('bmiCategory');
+
+    function calculateBMI() {
+      const weight = parseFloat(weightInput.value);
+      const height = parseFloat(heightInput.value);
+
+      // Validation
+      if (!weight || !height || weight <= 0 || height <= 0) {
+        alert('Vui lòng nhập cân nặng và chiều cao hợp lệ!');
+        return;
+      }
+
+      if (height > 3) {
+        alert('Chiều cao không hợp lý. Vui lòng nhập chiều cao dưới 3 mét.');
+        return;
+      }
+
+      // Calculate BMI
+      const bmi = weight / (height * height);
+      const roundedBMI = Math.round(bmi * 10) / 10;
+
+      // Determine category
+      let category = '';
+      let categoryClass = '';
+      let description = '';
+
+      if (bmi < 18.5) {
+        category = 'Thiếu cân';
+        categoryClass = 'category-underweight';
+        description = 'Chỉ số BMI thấp, cần tăng cân và bổ sung dinh dưỡng.';
+      } else if (bmi < 25) {
+        category = 'Bình thường';
+        categoryClass = 'category-normal';
+        description = 'Chỉ số BMI lý tưởng, duy trì chế độ ăn uống và tập luyện hợp lý.';
+      } else if (bmi < 30) {
+        category = 'Thừa cân';
+        categoryClass = 'category-overweight';
+        description = 'Chỉ số BMI cao, cần giảm cân và tăng cường vận động.';
+      } else {
+        category = 'Béo phì';
+        categoryClass = 'category-obese';
+        description = 'Chỉ số BMI rất cao, cần tham khảo ý kiến bác sĩ để có kế hoạch giảm cân phù hợp.';
+      }
+
+      // Update UI
+      bmiValue.textContent = roundedBMI.toFixed(1);
+      bmiDescription.textContent = description;
+      bmiCategory.textContent = category;
+      
+      // Remove old classes
+      bmiCategory.classList.remove('category-underweight', 'category-normal', 'category-overweight', 'category-obese');
+      // Add new class
+      bmiCategory.classList.add(categoryClass);
+      
+      // Show result with animation
+      resultContainer.classList.add('show');
+    }
+
+    function resetForm() {
+      weightInput.value = '';
+      heightInput.value = '';
+      resultContainer.classList.remove('show');
+      bmiValue.textContent = '0.00';
+      bmiDescription.textContent = 'Chỉ số BMI của bạn';
+      bmiCategory.textContent = 'Chưa tính';
+      bmiCategory.classList.remove('category-underweight', 'category-normal', 'category-overweight', 'category-obese');
+      
+      // Focus on first input
+      weightInput.focus();
+    }
+
+    // Add real-time validation
+    weightInput.addEventListener('input', function() {
+      if (this.value && parseFloat(this.value) <= 0) {
+        this.style.borderColor = '#e74c3c';
+      } else {
+        this.style.borderColor = '#e9ecef';
+      }
+    });
+
+    heightInput.addEventListener('input', function() {
+      if (this.value && (parseFloat(this.value) <= 0 || parseFloat(this.value) > 3)) {
+        this.style.borderColor = '#e74c3c';
+      } else {
+        this.style.borderColor = '#e9ecef';
+      }
+    });
+
+    // Add keyboard support
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        calculateBMI();
+      } else if (e.key === 'Escape') {
+        resetForm();
+      }
+    });
+
+    // Add some interactivity to BMI chart
+    document.querySelectorAll('.bmi-range').forEach(range => {
+      range.addEventListener('click', function() {
+        const value = this.querySelector('.range-value').textContent;
+        alert(`Chỉ số BMI ${value} thuộc nhóm: ${this.querySelector('.range-label').textContent}`);
+      });
+    });
+  </script>
+
+</body>
+</html>

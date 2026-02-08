@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K7 - Parallax Scrolling</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f8f9fa;
+    color: var(--text-color);
+  }
+
+  /* Header Section */
+  header {
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header h1 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease;
+  }
+
+  header p {
+    font-size: 1.5rem;
+    animation: fadeInUp 1s ease 0.2s both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Parallax Sections */
+  .parallax-section {
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+  }
+
+  .parallax-content {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    max-width: 800px;
+    animation: slideInFromLeft 1s ease;
+  }
+
+  .parallax-content h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .parallax-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Section 1 */
+  .section-1 {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  }
+
+  .section-1 .parallax-bg {
+    background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+  }
+
+  /* Section 2 */
+  .section-2 {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  }
+
+  .section-2 .parallax-bg {
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+  }
+
+  /* Section 3 */
+  .section-3 {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  }
+
+  .section-3 .parallax-bg {
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+  }
+
+  /* Content Sections */
+  .content-section {
+    padding: 100px 0;
+    background: white;
+  }
+
+  .content-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--secondary-color);
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .content-card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .content-card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+
+  .content-card p {
+    color: #666;
+    line-height: 1.8;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  footer h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  footer p {
+    color: #bdc3c7;
+  }
+
+  /* Scroll Indicator */
+  .scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: var(--primary-color);
+    z-index: 1000;
+    transition: width 0.1s ease;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+    }
+
+    .parallax-section {
+      height: 400px;
+    }
+
+    .parallax-content h2 {
+      font-size: 2rem;
+    }
+
+    .content-section h2 {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-indicator" id="scrollIndicator"></div>
+
+  <!-- Header Section -->
+  <header>
+    <h1>Parallax Scrolling</h1>
+    <p>Hiệu ứng thị sai khi cuộn trang</p>
+  </header>
+
+  <!-- Parallax Section 1 -->
+  <section class="parallax-section section-1">
+    <div class="parallax-bg" id="parallax1"></div>
+    <div class="parallax-content">
+      <h2>Hiệu Ứng Parallax</h2>
+      <p>Parallax scrolling là kỹ thuật tạo hiệu ứng thị sai bằng cách di chuyển các lớp hình ảnh với tốc độ khác nhau khi người dùng cuộn trang. Lớp nền di chuyển chậm hơn lớp前景, tạo cảm giác chiều sâu và không gian 3D.</p>
+    </div>
+  </section>
+
+  <!-- Content Section 1 -->
+  <section class="content-section">
+    <h2>Lợi Ích Của Parallax</h2>
+    <div class="content-grid">
+      <div class="content-card">
+        <h3>Tăng Tính Tương Tác</h3>
+        <p>Hiệu ứng parallax giúp tăng tính tương tác và thu hút người dùng, làm cho trải nghiệm duyệt web trở nên thú vị hơn.</p>
+      </div>
+      <div class="content-card">
+        <h3>Tạo Cảm Giác Chiều Sâu</h3>
+        <p>Bằng cách di chuyển các lớp với tốc độ khác nhau, parallax tạo ra ảo giác về chiều sâu và không gian 3 chiều.</p>
+      </div>
+      <div class="content-card">
+        <h3>Cải Thiện Trải Nghiệm Người Dùng</h3>
+        <p>Hiệu ứng mượt mà giúp người dùng có trải nghiệm duyệt web tốt hơn, đặc biệt trên các trang web kể chuyện.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parallax Section 2 -->
+  <section class="parallax-section section-2">
+    <div class="parallax-bg" id="parallax2"></div>
+    <div class="parallax-content">
+      <h2>Kỹ Thuật Thực Hiện</h2>
+      <p>Parallax scrolling có thể được thực hiện bằng CSS thuần (background-attachment: fixed) hoặc bằng JavaScript để kiểm soát chính xác hơn tốc độ di chuyển của các lớp.</p>
+    </div>
+  </section>
+
+  <!-- Content Section 2 -->
+  <section class="content-section">
+    <h2>Các Phương Pháp Triển Khai</h2>
+    <div class="content-grid">
+      <div class="content-card">
+        <h3>CSS Pure</h3>
+        <p>Sử dụng background-attachment: fixed để tạo hiệu ứng parallax đơn giản mà không cần JavaScript.</p>
+      </div>
+      <div class="content-card">
+        <h3>JavaScript</h3>
+        <p>Sử dụng JavaScript để kiểm soát chính xác tốc độ di chuyển của các lớp, tạo hiệu ứng phức tạp hơn.</p>
+      </div>
+      <div class="content-card">
+        <h3>Framework</h3>
+        <p>Sử dụng các framework như ScrollMagic, GSAP để tạo hiệu ứng parallax chuyên nghiệp và mượt mà.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parallax Section 3 -->
+  <section class="parallax-section section-3">
+    <div class="parallax-bg" id="parallax3"></div>
+    <div class="parallax-content">
+      <h2>Ứng Dụng Thực Tế</h2>
+      <p>Parallax scrolling được sử dụng rộng rãi trong thiết kế web hiện đại, đặc biệt là các trang web giới thiệu sản phẩm, portfolio, và các câu chuyện trực tuyến.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <h3>© 2024 Parallax Scrolling Demo</h3>
+    <p>Interactive Web Design & Smooth Animation Effects</p>
+  </footer>
+
+  <script>
+    // Parallax Effect
+    function handleParallax() {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      
+      // Apply parallax to background images
+      document.getElementById('parallax1').style.transform = `translateY(${rate * 0.3}px)`;
+      document.getElementById('parallax2').style.transform = `translateY(${rate * 0.5}px)`;
+      document.getElementById('parallax3').style.transform = `translateY(${rate * 0.7}px)`;
+    }
+
+    // Scroll Progress Indicator
+    function updateScrollIndicator() {
+      const scrolled = window.pageYOffset;
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrolled / maxScroll) * 100;
+      
+      document.getElementById('scrollIndicator').style.width = scrollPercent + '%';
+    }
+
+    // Smooth Scroll for Navigation
+    function smoothScroll(target) {
+      const element = document.querySelector(target);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+
+    // Initialize
+    window.addEventListener('scroll', () => {
+      handleParallax();
+      updateScrollIndicator();
+    });
+
+    // Add some interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add click event to content cards for demonstration
+      const cards = document.querySelectorAll('.content-card');
+      cards.forEach(card => {
+        card.addEventListener('click', function() {
+          this.style.transform = 'scale(1.05)';
+          setTimeout(() => {
+            this.style.transform = 'translateY(-5px)';
+          }, 200);
+        });
+      });
+
+      // Add floating animation to header content
+      const headerContent = document.querySelector('header');
+      let scrollY = 0;
+      
+      window.addEventListener('scroll', () => {
+        scrollY = window.scrollY;
+        headerContent.style.transform = `translateY(${scrollY * 0.5}px)`;
+      });
+    });
+  </script>
+
+</body>
+</html>

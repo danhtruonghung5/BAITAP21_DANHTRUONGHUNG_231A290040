@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Bài Tập JavaScript</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 800px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary-color);
+  }
+
+  .card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+  }
+
+  .card p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, var(--primary-color), #2980b9);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+    background: linear-gradient(135deg, #2980b9, var(--primary-color));
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .footer {
+    margin-top: 40px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .card {
+      padding: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>JavaScript Projects</h1>
+      <p class="subtitle">Bộ sưu tập các bài tập JavaScript cơ bản</p>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h3>TK4 – Tab View</h3>
+        <p>Tạo giao diện tab động với 3 nút điều khiển. Khi click vào tab, chỉ hiển thị nội dung tương ứng.</p>
+        <a href="baitapTK4.html" class="btn">Xem Bài Tập</a>
+      </div>
+
+      <div class="card">
+        <h3>TK5 – Accordion</h3>
+        <p>Hiệu ứng accordion đơn giản: click vào tiêu đề để mở/đóng nội dung ẩn bên dưới.</p>
+        <a href="baitapTK5.html" class="btn">Xem Bài Tập</a>
+      </div>
+
+      <div class="card">
+        <h3>K3 – Kiểm Tra Mật Khẩu</h3>
+        <p>Xây dựng form đăng ký với kiểm tra mật khẩu khớp. Hiển thị thông báo lỗi nếu không khớp.</p>
+        <a href="baitapK3.html" class="btn">Xem Bài Tập</a>
+      </div>
+
+      <div class="card">
+        <h3>K7 – Parallax Scrolling</h3>
+        <p>Tạo hiệu ứng thị sai khi cuộn trang: ảnh nền di chuyển chậm hơn nội dung.</p>
+        <a href="baitapK7.html" class="btn">Xem Bài Tập</a>
+      </div>
+
+      <div class="card">
+        <h3>K8 – Tính BMI</h3>
+        <p>Nhập cân nặng và chiều cao để tính chỉ số BMI và hiển thị phân loại sức khỏe.</p>
+        <a href="baitapK8.html" class="btn">Xem Bài Tập</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2024 JavaScript Learning Project | Designed with CSS Grid & Flexbox</p>
+    </div>
+  </div>
+
+</body>
+</html>

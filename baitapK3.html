@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K3 - Kiểm tra mật khẩu</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+  }
+
+  .form-container {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 1rem;
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .form-group input[type="password"] {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+  }
+
+  .form-group input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  }
+
+  .form-group input[type="password"].valid {
+    border-color: var(--success-color);
+    background: #f0fff4;
+  }
+
+  .form-group input[type="password"].invalid {
+    border-color: var(--error-color);
+    background: #fff0f0;
+  }
+
+  .password-strength {
+    margin-top: 5px;
+    font-size: 0.85rem;
+    min-height: 1.2em;
+  }
+
+  .strength-bar {
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+  }
+
+  .strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary-color), #2980b9);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+    background: linear-gradient(135deg, #2980b9, var(--primary-color));
+  }
+
+  .btn-submit:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .message.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .footer {
+    margin-top: 30px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Đăng Ký</h1>
+      <p class="subtitle">Kiểm tra mật khẩu khớp</p>
+    </header>
+
+    <div class="form-container">
+      <form id="registrationForm" onsubmit="return checkPassword()">
+        <div class="form-group">
+          <label for="password">Mật khẩu</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" placeholder="Nhập mật khẩu của bạn" required>
+            <div class="password-strength" id="passwordStrength"></div>
+            <div class="strength-bar">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirm">Nhập lại mật khẩu</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirm" placeholder="Nhập lại mật khẩu" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Đăng Ký</button>
+      </form>
+
+      <div class="message" id="message"></div>
+    </div>
+
+    <div class="footer">
+      <p>© 2024 Password Validation Demo | Secure Form Validation</p>
+    </div>
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm');
+    const passwordStrength = document.getElementById('passwordStrength');
+    const strengthFill = document.getElementById('strengthFill');
+    const message = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Kiểm tra độ mạnh mật khẩu
+    function checkPasswordStrength(password) {
+      let strength = 0;
+      let feedback = '';
+
+      if (password.length >= 8) strength++;
+      if (/[a-z]/.test(password)) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+      switch (strength) {
+        case 0:
+        case 1:
+          feedback = 'Mật khẩu yếu';
+          strengthFill.style.backgroundColor = '#e74c3c';
+          break;
+        case 2:
+          feedback = 'Mật khẩu trung bình';
+          strengthFill.style.backgroundColor = '#f39c12';
+          break;
+        case 3:
+        case 4:
+          feedback = 'Mật khẩu mạnh';
+          strengthFill.style.backgroundColor = '#2ecc71';
+          break;
+        case 5:
+          feedback = 'Mật khẩu rất mạnh';
+          strengthFill.style.backgroundColor = '#27ae60';
+          break;
+      }
+
+      passwordStrength.textContent = feedback;
+      strengthFill.style.width = (strength * 20) + '%';
+      return strength >= 3; // Mật khẩu đủ mạnh khi có ít nhất 3 tiêu chí
+    }
+
+    // Kiểm tra mật khẩu khớp
+    function checkPassword() {
+      const pass = passwordInput.value;
+      const confirm = confirmInput.value;
+      
+      // Reset trạng thái
+      passwordInput.classList.remove('valid', 'invalid');
+      confirmInput.classList.remove('valid', 'invalid');
+      message.classList.remove('show', 'success', 'error');
+
+      if (pass === '' || confirm === '') {
+        showMessage('Vui lòng nhập đầy đủ thông tin', 'error');
+        return false;
+      }
+
+      if (pass !== confirm) {
+        passwordInput.classList.add('invalid');
+        confirmInput.classList.add('invalid');
+        showMessage('❌ Mật khẩu không khớp', 'error');
+        return false;
+      }
+
+      if (!checkPasswordStrength(pass)) {
+        passwordInput.classList.add('invalid');
+        showMessage('❌ Mật khẩu quá yếu. Vui lòng chọn mật khẩu mạnh hơn', 'error');
+        return false;
+      }
+
+      passwordInput.classList.add('valid');
+      confirmInput.classList.add('valid');
+      showMessage('✅ Mật khẩu hợp lệ và khớp nhau', 'success');
+      
+      // Tạm thời vô hiệu hóa nút submit để tránh submit nhiều lần
+      submitBtn.disabled = true;
+      setTimeout(() => {
+        submitBtn.disabled = false;
+      }, 2000);
+
+      return true;
+    }
+
+    // Hiển thị thông báo
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message show ${type}`;
+      
+      // Tự động ẩn thông báo sau 3 giây
+      setTimeout(() => {
+        message.classList.remove('show');
+      }, 3000);
+    }
+
+    // Thêm sự kiện real-time validation
+    passwordInput.addEventListener('input', function() {
+      if (this.value.length > 0) {
+        checkPasswordStrength(this.value);
+      } else {
+        passwordStrength.textContent = '';
+        strengthFill.style.width = '0%';
+      }
+    });
+
+    confirmInput.addEventListener('input', function() {
+      const pass = passwordInput.value;
+      const confirm = this.value;
+      
+      if (confirm.length > 0) {
+        if (pass === confirm) {
+          this.classList.remove('invalid');
+          this.classList.add('valid');
+        } else {
+          this.classList.remove('valid');
+          this.classList.add('invalid');
+        }
+      } else {
+        this.classList.remove('valid', 'invalid');
+      }
+    });
+
+    // Thêm sự kiện keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && document.activeElement !== submitBtn) {
+        e.preventDefault();
+        submitBtn.click();
+      }
+    });
+  </script>
+
+</body>
+</html>

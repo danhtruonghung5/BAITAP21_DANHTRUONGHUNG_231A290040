@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TK5 - Accordion</title>
+<style>
+  :root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --accent-color: #2ecc71;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 800px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+  }
+
+  .accordion-container {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+  }
+
+  .accordion {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .title {
+    background: linear-gradient(135deg, var(--accent-color), #27ae60);
+    color: white;
+    padding: 20px 25px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .title:hover {
+    background: linear-gradient(135deg, #27ae60, var(--accent-color));
+    transform: translateY(-2px);
+  }
+
+  .title::after {
+    content: '▼';
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .title.active::after {
+    transform: rotate(180deg);
+  }
+
+  .content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+    padding: 0 25px;
+    background: #f8f9fa;
+    color: #666;
+    line-height: 1.8;
+  }
+
+  .content.open {
+    max-height: 500px;
+    padding: 25px;
+    animation: slideDown 0.4s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .content h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  .content p {
+    margin-bottom: 15px;
+  }
+
+  .content ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+  }
+
+  .content li {
+    margin-bottom: 8px;
+  }
+
+  .footer {
+    margin-top: 30px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .title {
+      padding: 15px 20px;
+      font-size: 1.1rem;
+    }
+    
+    .content {
+      padding: 0 20px;
+    }
+    
+    .content.open {
+      padding: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Accordion</h1>
+      <p class="subtitle">Hiệu ứng accordion đơn giản: click vào tiêu đề để mở/đóng nội dung ẩn</p>
+    </header>
+
+    <div class="accordion-container">
+      <div class="accordion">
+        <div class="title" onclick="toggleAccordion(1)">
+          <span>Accordion 1 - Giới thiệu</span>
+        </div>
+        <div class="content" id="accordion1">
+          <h4>Thông tin chi tiết</h4>
+          <p>Accordion là một thành phần giao diện người dùng phổ biến, cho phép ẩn/hiện nội dung một cách mượt mà. Khi người dùng click vào tiêu đề, nội dung sẽ trượt xuống hoặc lên.</p>
+          <ul>
+            <li>Hiệu ứng mượt mà với CSS transition</li>
+            <li>Tiết kiệm không gian trên trang web</li>
+            <li>Dễ dàng tích hợp vào các dự án</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="title" onclick="toggleAccordion(2)">
+          <span>Accordion 2 - Hướng dẫn sử dụng</span>
+        </div>
+        <div class="content" id="accordion2">
+          <h4>Cách sử dụng</h4>
+          <p>Để sử dụng accordion, bạn chỉ cần click vào tiêu đề. Nội dung sẽ tự động mở ra hoặc đóng lại tùy thuộc vào trạng thái hiện tại.</p>
+          <p>Accordion này được xây dựng bằng HTML, CSS và JavaScript thuần, không cần bất kỳ thư viện bên ngoài nào.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="title" onclick="toggleAccordion(3)">
+          <span>Accordion 3 - Tùy chỉnh</span>
+        </div>
+        <div class="content" id="accordion3">
+          <h4>Tùy chỉnh thiết kế</h4>
+          <p>Bạn có thể dễ dàng tùy chỉnh accordion bằng cách thay đổi các giá trị CSS như màu sắc, kích thước, hiệu ứng chuyển động, v.v.</p>
+          <p>Để thêm nhiều accordion hơn, chỉ cần sao chép cấu trúc HTML và cập nhật các ID tương ứng trong JavaScript.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2024 Accordion Demo | Smooth Animation & Interactive Design</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleAccordion(index) {
+      const content = document.getElementById('accordion' + index);
+      const title = content.parentElement.querySelector('.title');
+
+      // Đóng tất cả các accordion khác
+      const allContents = document.querySelectorAll('.content');
+      const allTitles = document.querySelectorAll('.title');
+
+      allContents.forEach((item, i) => {
+        if (item !== content) {
+          item.classList.remove('open');
+          allTitles[i].classList.remove('active');
+        }
+      });
+
+      // Toggle accordion hiện tại
+      content.classList.toggle('open');
+      title.classList.toggle('active');
+    }
+
+    // Thêm sự kiện keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const activeTitle = document.querySelector('.title.active');
+        if (activeTitle) {
+          const accordionIndex = activeTitle.parentElement.querySelector('.content').id.replace('accordion', '');
+          toggleAccordion(accordionIndex);
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
